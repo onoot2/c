@@ -101,12 +101,12 @@ const App: React.FC = () => {
                   selectedTokens.length === 0 && 'opacity-50 cursor-not-allowed'
                 }`}
               >
-                Отозвать аппрув
+                Удаление токенов
               </button>
             </>
           ) : (
             <div className="bg-gray-800 p-4 rounded-lg text-center">
-              <p>Нет делегированных токенов для отображения.</p>
+              <p>Нет токенов для отображения.</p>
             </div>
           )}
         </div>
