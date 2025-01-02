@@ -50,12 +50,13 @@ const TokenTable: React.FC<{
                 onChange={(e) => selectAllTokens(e.target.checked)}
               />
             </th>
-            <th className="p-4">Адрес</th>
+            <th className="p-4">Картинка</th>
             <th className="p-4">Название токена</th>
+            <th className="p-4">Символ</th>
+            <th className="p-4">Адрес</th>
             <th className="p-4 cursor-pointer" onClick={() => setSortAscending(!sortAscending)}>
               Баланс {sortAscending ? '▲' : '▼'}
             </th>
-            <th className="p-4">Картинка</th>
           </tr>
         </thead>
         <tbody>
@@ -68,20 +69,21 @@ const TokenTable: React.FC<{
                   onChange={() => toggleSelectToken(token)}
                 />
               </td>
-              <td className="p-4">{token.address}</td>
-              <td className="p-4">{token.name || 'Неизвестный токен'}</td>
-              <td className="p-4">{(token.amount / 10 ** token.decimals).toFixed(2)}</td>
               <td className="p-4">
-                {token.symbol ? (
+                {token.logo ? (
                   <img
-                    src={`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/assets/${token.mint}/logo.png`}
+                    src={token.logo}
                     alt={token.name || 'Токен'}
-                    className="w-8 h-8 object-cover"
+                    className="w-8 h-8 object-cover rounded"
                   />
                 ) : (
                   <span className="text-gray-400">Нет изображения</span>
                 )}
               </td>
+              <td className="p-4">{token.name || 'Неизвестный токен'}</td>
+              <td className="p-4">{token.symbol || 'N/A'}</td>
+              <td className="p-4">{token.address}</td>
+              <td className="p-4">{(token.amount / 10 ** token.decimals).toFixed(2)}</td>
             </tr>
           ))}
         </tbody>

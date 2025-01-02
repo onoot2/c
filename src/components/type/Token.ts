@@ -1,17 +1,13 @@
-export type Token = {
+export interface Token {
     address: string;
     mint: string;
     owner: string;
     amount: number;
     decimals: number;
-    mintAddress?: string;
-    balance?: number;
-    symbol?: string;
-    name?: string;
-    delegate?: string;
-    delegatedAmount?: number;
-  };
-
+    name: string;
+    symbol: string;
+    logo: string;
+  }
 export type WalletConnectProps = {
     setTokens: (tokens: {
         mint: string;

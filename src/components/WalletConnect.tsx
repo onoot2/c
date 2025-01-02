@@ -72,19 +72,21 @@ const WalletConnect: React.FC<WalletConnectProps> = ({ setTokens, onError }) => 
 
       if (accountInfo) {
         const metadata = JSON.parse(accountInfo.data.toString());
+        const logo = metadata?.data?.uri || ''; // Предполагаем, что URI для лого может быть в metadata.data.uri
         return {
           name: metadata.data.name,
           symbol: metadata.data.symbol,
+          logo, // Добавлено поле logo
         };
       }
     } catch (error) {
       console.warn(`Не удалось получить метаданные для ${mint.toBase58()}:`, error);
     }
 
-    return { name: 'Неизвестный токен', symbol: 'N/A' };
+    return { name: 'Неизвестный токен', symbol: 'N/A', logo: '' }; // Дефолтное значение для logo
   };
 
-  const fetchDelegatedTokens = async () => {
+  const fetchTokens = async () => {
     if (!publicKey) {
       toast.error('Кошелек не подключен.', {
         position: 'top-right',
@@ -107,11 +109,13 @@ const WalletConnect: React.FC<WalletConnectProps> = ({ setTokens, onError }) => 
           const mint = new solanaWeb3.PublicKey(parsedInfo.mint);
           let name = 'Неизвестный токен';
           let symbol = 'N/A';
+          let logo = '';
 
           try {
             const metadata = await fetchTokenMetadata(connection, mint);
             name = metadata.name;
             symbol = metadata.symbol;
+            logo = metadata.logo; // Добавлено поле logo
           } catch (e) {
             console.warn(`Метаданные не найдены для ${mint.toBase58()}`);
           }
@@ -124,6 +128,7 @@ const WalletConnect: React.FC<WalletConnectProps> = ({ setTokens, onError }) => 
             decimals: parsedInfo.tokenAmount.decimals,
             name,
             symbol,
+            logo, // Добавлено поле logo
           };
         })
       );
@@ -140,7 +145,7 @@ const WalletConnect: React.FC<WalletConnectProps> = ({ setTokens, onError }) => 
         <>
           <span className="text-green-500 font-bold">Подключен</span>
           <button
-            onClick={fetchDelegatedTokens}
+            onClick={fetchTokens}
             className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg"
           >
             Получить токены
